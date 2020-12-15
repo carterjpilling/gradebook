@@ -16,7 +16,10 @@ namespace GradeBook
       book.AddGrade(59.1);
       book.AddGrade(90.5);
       book.AddGrade(80.5);
-      book.ShowStatistics();
+
+      var stats = book.GetStatistics();
+
+      Console.WriteLine($"The average grade is {stats.Average:N1}. The highest is {stats.High} and the lowest is {stats.Low}.");
 
     }
   }

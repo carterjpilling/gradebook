@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
-  class Book
+  public class Book
   {
     //Explicit constructor, same name, no returnt type. (String name) is a constructor parameter. 
     public Book(string name)
     {
       grades = new List<double>();
       //This is an implicit variable that can be used inside variables and constructors. You use it when you want to define the object that is currently being operated on. Had to use this because we used the name word twice. 
-      this.name = name;
+      Name = name;
     }
 
 
@@ -20,24 +20,27 @@ namespace GradeBook
       grades.Add(grade);
     }
 
-    public void ShowStatistics()
+    public Statistics GetStatistics()
     {
-      var result = 0.0;
-      var highGrade = double.MinValue;
-      var lowGrade = double.MaxValue;
+      var result = new Statistics();
+      result.Average = 0.0;
 
-      foreach (var number in grades)
+      result.High = double.MinValue;
+      result.Low = double.MaxValue;
+
+      foreach (var grade in grades)
       {
-        lowGrade = Math.Min(number, lowGrade);
-        highGrade = Math.Max(number, highGrade);
-        result += number;
+        result.Low = Math.Min(grade, result.Low);
+        result.High = Math.Max(grade, result.High);
+        result.Average += grade;
       }
 
-      result /= grades.Count;
-      Console.WriteLine($"The average grade is {result:N1}. The highest is {highGrade} and the lowest is {lowGrade}.");
+      result.Average /= grades.Count;
+
+      return result;
     }
     //Reason that this list is not public is because we want to user to use AddGrade so we can check their numbers before it touches our List. 
     private List<double> grades;
-    private string name;
+    public string Name;
   }
 }

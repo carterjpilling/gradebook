@@ -7,7 +7,7 @@ namespace GradeBook.Tests
   {
     //Fact is an attribute. A piece of a date attached to the method Test1, or the methods following it. 
     [Fact]
-    public void Test1()
+    public void BookCalculatesAnAverageGrade()
     {
       /*
       Three Sections
