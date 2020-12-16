@@ -3,8 +3,37 @@ using Xunit;
 
 namespace GradeBook.Tests
 {
+
+  public delegate string WriteLogDelegate(string logMessage);
+
+
   public class TypeTests
   {
+    int count = 0;
+    [Fact]
+    public void WriteLogDelegateCanPointToMethod()
+    {
+      WriteLogDelegate log = ReturnMessage;
+
+      // log = new WriteLogDelegate(ReturnMessage);
+      log += ReturnMessage;
+      log += IncrementCount;
+
+      var result = log("Hello!");
+      Assert.Equal(3, count);
+    }
+
+    string IncrementCount(string message)
+    {
+      count++;
+      return message.ToLower();
+    }
+    string ReturnMessage(string message)
+    {
+      count++;
+      return message;
+    }
+
     //Fact is an attribute. A piece of a date attached to the method Test1, or the methods following it. 
     [Fact]
     public void GetBookReturnsDifferentObjects()
@@ -55,9 +84,9 @@ namespace GradeBook.Tests
 
     }
     // ref book means that its passed by reference and not by value. 
-    private void GetBookSetName(ref Book book, string name)
+    private void GetBookSetName(ref InMemoryBook book, string name)
     {
-      book = new Book(name);
+      book = new InMemoryBook(name);
     }
 
 
@@ -73,9 +102,9 @@ namespace GradeBook.Tests
 
     }
 
-    private void GetBookSetName(Book book, string name)
+    private void GetBookSetName(InMemoryBook book, string name)
     {
-      book = new Book(name);
+      book = new InMemoryBook(name);
     }
 
 
@@ -90,14 +119,14 @@ namespace GradeBook.Tests
 
     }
 
-    private void SetName(Book book, string name)
+    private void SetName(InMemoryBook book, string name)
     {
       book.Name = name;
     }
 
-    Book GetBook(string name)
+    InMemoryBook GetBook(string name)
     {
-      return new Book(name);
+      return new InMemoryBook(name);
     }
 
     [Fact]

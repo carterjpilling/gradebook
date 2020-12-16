@@ -3,15 +3,31 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
-
   class Program
   {
     static void Main(string[] args)
 
     {
-      var book = new Book("Cj's Grade Book");
+      IBook book = new DiscBook("Cj's Grade Book");
+      //Handle event
+      book.GradeAdded += OnGradeAdded;
 
 
+
+      // book.GradeAdded = null; NOT ALLOWED
+      EnterGrades(book);
+      //Loop, enter new grade. 
+
+      var stats = book.GetStatistics();
+
+      Console.WriteLine($"For the book named {book.Name}");
+      Console.WriteLine($"The average grade is {stats.Average:N1}. The highest is {stats.High} and the lowest is {stats.Low}.");
+      Console.WriteLine($"The letter grade is {stats.Letter}");
+
+    }
+
+    private static void EnterGrades(IBook book)
+    {
       while (true)
       {
         Console.WriteLine("Enter a grade or 'q' to quite");
@@ -41,14 +57,14 @@ namespace GradeBook
           Console.WriteLine("**");
         }
       }
-      //Loop, enter new grade. 
-
-      var stats = book.GetStatistics();
-
-      Console.WriteLine($"The average grade is {stats.Average:N1}. The highest is {stats.High} and the lowest is {stats.Low}.");
-      Console.WriteLine($"The letter grade is {stats.Letter}");
-
     }
+
+    static void OnGradeAdded(object sender, EventArgs e)
+    {
+      Console.WriteLine("A grade was added.");
+    }
+
+
   }
 
 }
